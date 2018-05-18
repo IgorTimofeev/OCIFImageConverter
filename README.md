@@ -1,5 +1,4 @@
 
+![](https://i.imgur.com/enMH85D.png)
 
-![Imgur](https://i.imgur.com/ZSgoRYY.png)
-
-Крч, это пиздатый конвертер с поддержкой дизеринга и шрифта Брайля, так что пикчи в твоей майновской хате будут настолько графонистыми, что Ваномас лично позволит пробить ему анальти. Приятного использования, йоба, я старался
+This software is designed to convert any real images into OCIF images. The format created for the OpenComputers minecraft modification. It supports dithering, and Braille font, which allows you to break limit of 160x50 pixels and use up to 320x200. Enjoy!
