@@ -147,7 +147,7 @@ public class Main extends Application {
             }
         });
 
-        encodingMethodComboBox.setValue("OCIF6 (Optimized)");
+        encodingMethodComboBox.setValue("OCIF8 (Actual)");
         onTextFieldTextChanged();
     }
 
@@ -336,7 +336,7 @@ public class Main extends Application {
                     file.getPath(),
                     Integer.parseInt(widthTextField.getText()),
                     Integer.parseInt(heightTextField.getText()),
-                    encodingMethodComboBox.getValue().contains("OCIF6") ? 6 : 5,
+                    encodingMethodComboBox.getValue().charAt(4) - '0',
                     brailleCheckBox.isSelected(),
                     ditheringCheckBox.isSelected(),
                     ditheringOpacitySlider.getValue() / 100.0d

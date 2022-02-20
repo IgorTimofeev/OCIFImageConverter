@@ -33,43 +33,46 @@ class OCIF {
         return array;
     }
 
-    private static void writeGroupedImage(FileOutputStream out, HashMap<Integer, HashMap<String, HashMap<Integer, HashMap<Integer, HashMap<Integer, ArrayList<Integer>>>>>> groupedImage) throws IOException {
+    private static void writeGroupedImage(FileOutputStream out, HashMap<Integer, HashMap<String, HashMap<Integer, HashMap<Integer, HashMap<Integer, ArrayList<Integer>>>>>> groupedImage, int encodingMethod) throws IOException {
+        int is7 = encodingMethod >= 7 ? 1 : 0;
+        int is8 = encodingMethod >= 8 ? 1 : 0;
+
         // Alphas size
-        out.write(groupedImage.keySet().size());
+        out.write(groupedImage.keySet().size() - is7);
 
         for (Integer alpha : groupedImage.keySet()) {
             // Alpha
             out.write(alpha.byteValue());
             // Symbols size
-            out.write(integerToByteArray(groupedImage.get(alpha).keySet().size(), 2));
+            out.write(integerToByteArray(groupedImage.get(alpha).keySet().size() - is7, 2));
 
             for (String symbol : groupedImage.get(alpha).keySet()) {
                 // Symbol
                 out.write(symbol.getBytes(StandardCharsets.UTF_8));
                 // Backgrounds size
-                out.write((byte) groupedImage.get(alpha).get(symbol).keySet().size());
+                out.write((byte) groupedImage.get(alpha).get(symbol).keySet().size() - is7);
 
                 for (Integer background : groupedImage.get(alpha).get(symbol).keySet()) {
                     // Background
                     out.write(background.byteValue());
                     // Foregrounds size
-                    out.write((byte) groupedImage.get(alpha).get(symbol).get(background).keySet().size());
+                    out.write((byte) groupedImage.get(alpha).get(symbol).get(background).keySet().size() - is7);
 
                     for (Integer foreground : groupedImage.get(alpha).get(symbol).get(background).keySet()) {
                         // Foreground
                         out.write(foreground.byteValue());
                         // Ys size
-                        out.write((byte) groupedImage.get(alpha).get(symbol).get(background).get(foreground).keySet().size());
+                        out.write((byte) groupedImage.get(alpha).get(symbol).get(background).get(foreground).keySet().size() - is7);
 
                         for (Integer y : groupedImage.get(alpha).get(symbol).get(background).get(foreground).keySet()) {
                             // Y
-                            out.write(y.byteValue());
+                            out.write(y.byteValue() - is8);
                             // Xs size
-                            out.write((byte) groupedImage.get(alpha).get(symbol).get(background).get(foreground).get(y).size());
+                            out.write((byte) groupedImage.get(alpha).get(symbol).get(background).get(foreground).get(y).size() - is7);
 
                             for (Integer x : groupedImage.get(alpha).get(symbol).get(background).get(foreground).get(y)) {
                                 // X
-                                out.write(x.byteValue());
+                                out.write(x.byteValue() - is8);
                             }
                         }
                     }
@@ -137,6 +140,10 @@ class OCIF {
             out.write(integerToByteArray(requestedWidth, 2));
             out.write(integerToByteArray(requestedHeight, 2));
         }
+        else if (encodingMethod >= 8){
+            out.write((byte) (requestedWidth - 1));
+            out.write((byte) (requestedHeight - 1));
+        }
         else{
             out.write((byte) requestedWidth);
             out.write((byte) requestedHeight);
@@ -151,7 +158,7 @@ class OCIF {
                 }
             }
             else {
-                writeGroupedImage(out, sample.Image.groupAsBraille(image));
+                writeGroupedImage(out, sample.Image.groupAsBraille(image), encodingMethod);
             }
         }
         else {
@@ -163,7 +170,7 @@ class OCIF {
                 }
             }
             else {
-                writeGroupedImage(out, sample.Image.groupAsSemiPixel(image));
+                writeGroupedImage(out, sample.Image.groupAsSemiPixel(image), encodingMethod);
             }
         }
 

@@ -157,7 +157,9 @@
                         <FXCollections fx:factory="observableArrayList">
                            <String fx:value="OCIFString" />
                            <String fx:value="OCIF5 (Multiscreen)" />
-                           <String fx:value="OCIF6 (Optimized)" />
+                           <String fx:value="OCIF6" />
+                           <String fx:value="OCIF7" />
+                           <String fx:value="OCIF8 (Actual)" />
                         </FXCollections>
                      </items>
                      <VBox.margin>
