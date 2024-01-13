@@ -62,6 +62,7 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         primaryStage.setScene(new Scene(FXMLLoader.load(getClass().getResource("ImageConverter.fxml"))));
+        primaryStage.getIcons().add(new javafx.scene.image.Image(getClass().getResourceAsStream("Resources/WindowIcon.png")));
         primaryStage.show();
     }
 
